@@ -2,14 +2,99 @@
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
     <style>
       body{
         font-family: 'Noto Serif', serif;
         background-color: gray
       }
     </style>
+    <script type="text/javascript">
+      $.getJSON('maps/li.geojson', function (geojson) {
 
+    // Prepare the geojson
+    var states = Highcharts.geojson(geojson, 'map');
+
+    // Initiate the chart
+    Highcharts.mapChart('map-container', {
+        title: {
+            text: 'Child Food Insecurity on Long Island'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        series: [{
+            name: 'Food Insecurity Rates for Children',
+            data: states,
+            color: Highcharts.getOptions().colors[4],
+            states: {
+                hover: {
+                    color: Highcharts.getOptions().colors[4]
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}',
+                style: {
+                    width: '80px' // force line-wrap
+                }
+            },
+            tooltip: {
+                pointFormat: '{point.properties.NAME}: {point.properties.INSECURITY_RATE}%'
+            }
+        }, {
+            name: 'Estimated Program Eligibility',
+            data: states,
+            format: '{point.name}',
+            states: {
+                hover: {
+                  color: Highcharts.getOptions().colors[2]
+                }
+            },
+            color: Highcharts.getOptions().colors[2],
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}',
+                style: {
+                    width: '80px' // force line-wrap
+                }
+            },
+            tooltip: {
+              pointFormat: '{point.properties.NAME}: {point.properties.PROGRAM_ELIGIBILITY}% ineligible'
+            }
+        }, {
+            name: 'Food Insecure Children',
+            format: '{point.name}',
+            data: states,
+            states: {
+                hover: {
+                  color: Highcharts.getOptions().colors[3]
+                }
+            },
+            color: Highcharts.getOptions().colors[3],
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}',
+                style: {
+                    width: '80px' // force line-wrap
+                }
+            },
+            tooltip: {
+              pointFormat: '{point.properties.NAME}: {point.properties.INSECURE_CHILDREN} children'
+            }
+        }]
+    });
+});
+
+    </script>
   </head>
 
   <body>
@@ -38,7 +123,7 @@
       <div class="jumbotron">
         <h1 class="display-6" style="text-align:center;">WHAT IS THE PROJECT? </h1>
         <hr class="my-6">
-        <p style="text-align:center;"1>
+        <p style="text-align:center;">
 The normal school day for an elementary school child involves getting on the bus, learning their numbers, reading books, and having fun with their friends during recess. It does not involve having to worry about getting enough food during the day. But for some kids, they might have to worry about whether or not they will get a meal once they leave for the day. Food insecurity is an issue that many kids in Suffolk County might be worrying about even if they do not realize it.<br><br>
 
 Long Island Cares, often shortened to LIC, is one organization that is helping to keep children fed. The organization has four different children nutrition programs. One program they have is the Kids Cafe After-School Food and Mentoring Program. “It’s an after school program where we actually just partner with organizations that provide after school homework help and recreation,” Kristine Lehn, the Chief Network Officer for LIC, said. “We bring in a meal, usually called a cold dinner, but we bring in completely balanced nutritionally balanced meal for the children.”<br><br>
@@ -46,6 +131,14 @@ Long Island Cares, often shortened to LIC, is one organization that is helping t
 According to the LIC website, the program not only provides a dinner for children who are food insecure, but it also provides “a safe, clean and supervised environment in which children can do their homework and participate in other educational, recreational and social activities, nutrition education throughout the year and the KidsStock Newsletter, a newsletter with age-appropriate nutritional information, including submissions from the Kids Cafe participants.”
 </p>
       </div>
+
+      <div class="jumbotron">
+        <h1 class="display-6" style="text-align:center;">Data Vis</h1>
+        <hr class="my-6">
+        <div id="map-container"></div>
+
+      </div>
+
     </div>
   </body>
 
