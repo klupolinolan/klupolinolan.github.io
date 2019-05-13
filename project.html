@@ -19,7 +19,7 @@
     var states = Highcharts.geojson(geojson, 'map');
 
     // Initiate the chart
-    Highcharts.mapChart('map-container', {
+    Highcharts.mapChart('map-container-1', {
         title: {
             text: 'Child Food Insecurity on Long Island'
         },
@@ -50,7 +50,31 @@
             tooltip: {
                 pointFormat: '{point.properties.NAME}: {point.properties.INSECURITY_RATE}%'
             }
-        }, {
+        }]
+    });
+});
+
+    </script>
+    <script type="text/javascript">
+      $.getJSON('maps/li.geojson', function (geojson) {
+
+    // Prepare the geojson
+    var states = Highcharts.geojson(geojson, 'map');
+
+    // Initiate the chart
+    Highcharts.mapChart('map-container-2', {
+        title: {
+            text: 'Child Food Insecurity on Long Island'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        series: [{
             name: 'Estimated Program Eligibility',
             data: states,
             format: '{point.name}',
@@ -70,7 +94,31 @@
             tooltip: {
               pointFormat: '{point.properties.NAME}: {point.properties.PROGRAM_ELIGIBILITY}% ineligible'
             }
-        }, {
+        }]
+    });
+});
+
+    </script>
+    <script type="text/javascript">
+      $.getJSON('maps/li.geojson', function (geojson) {
+
+    // Prepare the geojson
+    var states = Highcharts.geojson(geojson, 'map');
+
+    // Initiate the chart
+    Highcharts.mapChart('map-container-3', {
+        title: {
+            text: 'Child Food Insecurity on Long Island'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        series: [{
             name: 'Food Insecure Children',
             format: '{point.name}',
             data: states,
@@ -133,10 +181,14 @@ According to the LIC website, the program not only provides a dinner for childre
       </div>
 
       <div class="jumbotron">
-        <h1 class="display-6" style="text-align:center;">Data Vis</h1>
+        <h1 class="display-6" style="text-align:center;">DATA</h1>
         <hr class="my-6">
-        <div id="map-container"></div>
-
+        <div id="map-container-1"></div>
+        <br>
+        <div id="map-container-2"></div>
+        <br>
+        <div id="map-container-3"></div>
+        <br>
       </div>
 
     </div>
